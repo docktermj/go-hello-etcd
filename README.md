@@ -22,7 +22,7 @@ docker network inspect bridge | grep Gateway
 
 Build etcd and docker demo images.
 
-In terminal #1
+### Terminal #1
 
 ```console
 export GOPATH="${HOME}/go"
@@ -71,7 +71,7 @@ go-hello-etcd \
   --initial-cluster "etcd1=http://172.17.0.1:2380,etcd2=http://172.17.0.2:23802,etcd3=http://172.17.0.3:23803,etcd4=http://172.17.0.4:23804"
 ```
 
-In terminal #2
+### Terminal #2
 
 ```console
 export ETCD_HOST=172.17.0.2
@@ -91,7 +91,7 @@ docker run \
   local/go-hello-etcd-demo
 ```
 
-In terminal #3, having IP address 172.17.0.3
+### Terminal #3
 
 ```console
 export ETCD_HOST=172.17.0.3
@@ -111,7 +111,7 @@ docker run \
   local/go-hello-etcd-demo
 ```
 
-In terminal #4, having IP address 172.17.0.4
+### Terminal #4
 
 ```console
 export ETCD_HOST=172.17.0.4
@@ -131,14 +131,15 @@ docker run \
   local/go-hello-etcd-demo
 ```
 
-In terminal #5, try these commands
+### Terminal #5
+
+Try these commands
 
 ```console
 export GOPATH="${HOME}/go"
 export PATH="${PATH}:${GOPATH}/bin:/usr/local/go/bin"
 
 docker cp ${GOPATH}/bin/etcdctl etcd2:/app
-docker exec -it etcd2 bash
 
 export ETCDCTL_API=3
 etcdctl member list
@@ -159,6 +160,14 @@ In docker container, try these commands
 export ETCDCTL_API=3
 /app/etcdctl --endpoints "http://127.0.0.1:23792,http://127.0.0.1:40012" member list
 /app/etcdctl --endpoints "http://127.0.0.1:23792,http://127.0.0.1:40012" get bob
+```
+
+Cleanup
+```console
+cd ~
+rm -rf ~/default.etcd
+docker rm etcd2 etcd3 etcd4
+
 ```
 
 ## Development
