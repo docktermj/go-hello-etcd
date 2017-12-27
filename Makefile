@@ -27,6 +27,7 @@ build-local:
 test-local:
 	go test github.com/docktermj/$(PROGRAM_NAME)/... 
 
+
 # -----------------------------------------------------------------------------
 # Docker-based development
 # -----------------------------------------------------------------------------
@@ -59,7 +60,7 @@ docker-build:
 .PHONY: build-demo
 build-demo: build-local
 	mkdir -p $(TARGET_DIRECTORY) || true
-	cp ${GOPATH}/bin//$(PROGRAM_NAME) $(TARGET_DIRECTORY)
+	cp ${GOPATH}/bin/$(PROGRAM_NAME) $(TARGET_DIRECTORY)
 	docker build \
 		--tag $(DOCKER_IMAGE_NAME)-demo \
 		--file demo.Dockerfile \
