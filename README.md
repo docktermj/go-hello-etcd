@@ -17,7 +17,8 @@ Verify `docker` network is 172.17.0.1.
 If gateway is not 172.17.0.1, the following `docker` statements need to be modified before being run.
 
 ```console
-docker network inspect bridge | grep Gateway
+$ docker network inspect bridge | grep Gateway
+                   "Gateway": "172.17.0.1"
 ```
 
 Build etcd and docker demo images.
@@ -144,7 +145,7 @@ docker cp ${GOPATH}/bin/etcdctl etcd2:/app
 export ETCDCTL_API=3
 etcdctl member list
 etcdctl get bob
-etcdctl put bob 7
+etcdctl set bob 7
 etcdctl get bob
 ```
 
@@ -163,6 +164,7 @@ export ETCDCTL_API=3
 ```
 
 Cleanup
+
 ```console
 cd ~
 rm -rf ~/default.etcd
@@ -204,6 +206,12 @@ Etcd command-line tool
 go get -u github.com/coreos/etcd/etcdctl
 ```
 
+Fix [bug](https://github.com/coreos/etcd/issues/8715).
+
+```console
+rm  ${REPOSITORY_DIR}/vendor/github.com/coreos/etcd/client/keys.generated.go
+```
+
 ### Build
 
 #### Local build
@@ -217,12 +225,14 @@ The results will be in the `${GOPATH}/bin` directory.
 
 #### Docker build
 
+Create `rpm` and `deb` installation packages.
+
 ```console
 cd ${REPOSITORY_DIR}
 make build
 ```
 
-The results will be in the `.../target` directory.
+The results will be in the `${REPOSITORY_DIR}/target` directory.
 
 ### Test
 
@@ -237,5 +247,3 @@ make test-local
 cd ${REPOSITORY_DIR}
 make clean
 ```
-
-### Referenes
